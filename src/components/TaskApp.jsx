@@ -25,8 +25,13 @@ export default function TaskApp() {
 
   const toggle = async (id) => {
     const task = tasks.find(t => t._id === id);
-    const res = await api.put(`/${id}`, { completed: !task.completed });
-    setTasks(tasks.map(t => t._id === id ? res.data : t));
+    console.log("Toggling task:", id, "Current:", task.completed);
+    try {
+      const res = await api.put(`/${id}`, { completed: !task.completed });
+      setTasks(tasks.map(t => t._id === id ? res.data : t));
+    } catch (err) {
+      console.error('Toggle error:', err);
+    }
   };
 
   const del = async (id) => {
